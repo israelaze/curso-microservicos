@@ -3,33 +3,48 @@ package com.devsuperior.hrworker.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devsuperior.hrworker.entities.Worker;
-import com.devsuperior.hrworker.repositories.WorkerRepository;
+import com.devsuperior.hrworker.dtos.WorkerGetDTO;
+import com.devsuperior.hrworker.services.WorkerServices;
 
 @RestController
 @RequestMapping(value = "/workers")
 public class WorkerController {
 	
 	@Autowired
-	private WorkerRepository repository;
+	private WorkerServices services;
 	
 	@GetMapping
-	public ResponseEntity<List<Worker>> findAll(){
+	public ResponseEntity<List<WorkerGetDTO>> findAll(){
 		
-		List<Worker> list = repository.findAll();
-		return ResponseEntity.ok(list);
+		try {
+			
+			List<WorkerGetDTO> listWorkerDto = services.findAll();
+			return ResponseEntity.ok(listWorkerDto);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Worker> findById(@PathVariable Long id){
+	public ResponseEntity<WorkerGetDTO> findById(@PathVariable Long id){
 		
-		Worker worker = repository.findById(id).get();
-		return ResponseEntity.ok(worker);
+		try {
+			
+			WorkerGetDTO workerDto = services.findById(id);
+			return ResponseEntity.ok(workerDto);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		
 	}
 }
