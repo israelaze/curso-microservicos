@@ -2,6 +2,7 @@ package com.devsuperior.hrworker.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.devsuperior.hrworker.dtos.WorkerGetDTO;
 import com.devsuperior.hrworker.entities.Worker;
+import com.devsuperior.hrworker.exceptions.NotFoundException;
 import com.devsuperior.hrworker.repositories.WorkerRepository;
 
 @Service
@@ -38,15 +40,20 @@ public class WorkerServices {
 
 	public WorkerGetDTO findById(Long id) {
 
-		Worker result = repository.findById(id).get();
+		Optional<Worker> result = repository.findById(id);
 
-		if (result == null) {
-			return null;
+		if (result == null || result.isEmpty()) {
+			throw new NotFoundException("Entity not found!");
 		} else {
 
-			WorkerGetDTO workerDto = new WorkerGetDTO();
-			mapper.map(result, workerDto);
+			Worker worker = result.get();
 
+			WorkerGetDTO workerDto = new WorkerGetDTO();
+			// mapper.map(worker, workerDto);
+
+			workerDto.setId(worker.getId());
+			workerDto.setName(worker.getName());
+			workerDto.setDailyIncome(worker.getDailyIncome());
 			return workerDto;
 
 		}
