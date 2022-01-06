@@ -49,11 +49,8 @@ public class WorkerServices {
 			Worker worker = result.get();
 
 			WorkerGetDTO workerDto = new WorkerGetDTO();
-			// mapper.map(worker, workerDto);
+			mapper.map(worker, workerDto);
 
-			workerDto.setId(worker.getId());
-			workerDto.setName(worker.getName());
-			workerDto.setDailyIncome(worker.getDailyIncome());
 			return workerDto;
 
 		}
