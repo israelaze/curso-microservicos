@@ -2,7 +2,10 @@ package com.devsuperior.hrworker.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +20,12 @@ import com.devsuperior.hrworker.services.WorkerServices;
 @RestController
 @RequestMapping(value = "/workers")
 public class WorkerController {
+	
+	private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
 
+	@Autowired
+	private Environment environment;
+	
 	@Autowired
 	private WorkerServices services;
 
@@ -39,6 +47,8 @@ public class WorkerController {
 	public ResponseEntity<WorkerGetDTO> findById(@PathVariable Long id) {
 
 		try {
+			
+			logger.info("PORT = " + environment.getProperty("local.server.port"));
 
 			WorkerGetDTO workerDto = services.findById(id);
 			return ResponseEntity.ok().body(workerDto);
