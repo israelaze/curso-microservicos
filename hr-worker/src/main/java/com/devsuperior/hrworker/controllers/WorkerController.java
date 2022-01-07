@@ -20,12 +20,12 @@ import com.devsuperior.hrworker.services.WorkerServices;
 @RestController
 @RequestMapping(value = "/workers")
 public class WorkerController {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
 
 	@Autowired
 	private Environment environment;
-	
+
 	@Autowired
 	private WorkerServices services;
 
@@ -47,7 +47,8 @@ public class WorkerController {
 	public ResponseEntity<WorkerGetDTO> findById(@PathVariable Long id) {
 
 		try {
-			
+
+			// Thread.sleep(3000L);
 			logger.info("PORT = " + environment.getProperty("local.server.port"));
 
 			WorkerGetDTO workerDto = services.findById(id);
@@ -55,7 +56,10 @@ public class WorkerController {
 
 		} catch (ServiceException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			/*
+			 * }catch (InterruptedException e) { return
+			 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); }
+			 */
 		}
-
 	}
 }
