@@ -48,7 +48,7 @@ public class WorkerController {
 
 		try {
 
-			// Thread.sleep(3000L);
+			Thread.sleep(3000L);
 			logger.info("PORT = " + environment.getProperty("local.server.port"));
 
 			WorkerGetDTO workerDto = services.findById(id);
@@ -56,10 +56,11 @@ public class WorkerController {
 
 		} catch (ServiceException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-			/*
-			 * }catch (InterruptedException e) { return
-			 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); }
-			 */
-		}
+			
+		}catch (InterruptedException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
+	    }
+			 
+		
 	}
 }
