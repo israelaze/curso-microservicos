@@ -19,27 +19,27 @@ import com.devsuperior.hrworker.dtos.WorkerGetDTO;
 import com.devsuperior.hrworker.exceptions.ServiceException;
 import com.devsuperior.hrworker.services.WorkerServices;
 
-@RefreshScope
 @RestController
 @RequestMapping(value = "/workers")
+@RefreshScope
 public class WorkerController {
 
 	private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
 
-	@Value("${test.config}")
+	@Value(value = "${test.config}")
 	private String testConfig;
-	
+
 	@Autowired
 	private Environment environment;
 
 	@Autowired
 	private WorkerServices services;
-	
+
 	@GetMapping(value = "/configs")
 	public ResponseEntity<Void> getConfigs() {
 
-			logger.info("CONFIG=" + testConfig);
-			return ResponseEntity.noContent().build();
+		logger.info("CONFIG=" + testConfig);
+		return ResponseEntity.noContent().build();
 
 	}
 
@@ -70,11 +70,10 @@ public class WorkerController {
 
 		} catch (ServiceException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-			
-		}catch (InterruptedException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
-	    }
-			 
-		
+
+		} catch (InterruptedException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+
 	}
 }

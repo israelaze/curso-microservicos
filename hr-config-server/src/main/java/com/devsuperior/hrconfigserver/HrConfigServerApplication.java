@@ -12,4 +12,5 @@ public class HrConfigServerApplication {
 		SpringApplication.run(HrConfigServerApplication.class, args);
 	}
 
+	
 }
