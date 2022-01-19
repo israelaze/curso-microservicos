@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -26,9 +25,6 @@ public class WorkerController {
 
 	private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
 
-	@Value(value = "${test.config}")
-	private String testConfig;
-
 	@Autowired
 	private Environment environment;
 
@@ -38,7 +34,6 @@ public class WorkerController {
 	@GetMapping(value = "/configs")
 	public ResponseEntity<Void> getConfigs() {
 
-		logger.info("CONFIG=" + testConfig);
 		return ResponseEntity.noContent().build();
 
 	}
@@ -62,7 +57,7 @@ public class WorkerController {
 
 		try {
 
-			Thread.sleep(3000L);
+			//Thread.sleep(3000L);
 			logger.info("PORT = " + environment.getProperty("local.server.port"));
 
 			WorkerGetDTO workerDto = services.findById(id);
@@ -71,9 +66,9 @@ public class WorkerController {
 		} catch (ServiceException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 
-		} catch (InterruptedException e) {
+		} /*catch (InterruptedException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-
+		} */
+		
 	}
 }
